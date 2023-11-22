@@ -1,14 +1,15 @@
 import schedule
 import time
 from datetime import datetime
+import asyncio
 import telegram
 
-def send_message(chat_id, text):
+async def send_message(chat_id, text):
     token = "6988074211:AAE9qvTTMcl09hxwwQ5slUlijMDCZBqHcSM"
     bot = telegram.Bot(token=token)
-    bot.sendMessage(chat_id=chat_id, text=text)
+    await bot.sendMessage(chat_id=chat_id, text=text)
 
-def send_scheduled_message():
+async def send_scheduled_message():
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
@@ -18,10 +19,10 @@ def send_scheduled_message():
         # 여기에 메시지를 전송하는 코드 추가
         chat_id = "-1002072112022"
         text = "함수 시작후 30분마다 울리는 알람."
-        send_message(chat_id, text)
+        await send_message(chat_id, text)
 
 # 30분 간격으로 send_scheduled_message 함수 예약
-schedule.every(30).minutes.do(send_scheduled_message)
+schedule.every(30).minutes.do(lambda: asyncio.run(send_scheduled_message()))
 
 while True:
     schedule.run_pending()
