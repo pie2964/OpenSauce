@@ -22,7 +22,7 @@ async def send_scheduled_message():
         await send_message(chat_id, text)
 
 # 30분 간격으로 send_scheduled_message 함수 예약
-schedule.every(1).minutes.do(lambda: asyncio.run(send_scheduled_message()))
+schedule.every(30).minutes.do(lambda: asyncio.run(send_scheduled_message()))
 
 while True:
     schedule.run_pending()
